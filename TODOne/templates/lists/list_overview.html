@@ -1,0 +1,50 @@
+{% extends 'parent/base.html' %}
+
+{% block title %}
+Lists TODOne
+{% endblock %}
+
+{% block style %}
+    '../static/css/lists/list_overview.css'
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper">
+    <header class="main-header">
+        <h1 class="main-heading">
+            <a href="{% url 'index' %}" class="home-link">TODOne</a>
+        </h1>
+    </header>
+
+    <main class="todo-section">
+        <h2>Create List:</h2>
+        <form method="post" action="{% url 'lists:create_list' %}">
+            {% csrf_token %}
+            {{form.as_p}}
+            {% if form.name.errors %}
+                <div class="errors">
+                    {% for error in form.name.errors %}
+                        <p class="error-message">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <input type="submit" value="Create">
+        </form>
+
+        {% if lists %}
+        <h2 class="section-title">ToDo Lists:</h2>
+        <div class="list-wrapper">
+            {% for list in lists %}
+            <div class="list-item">
+                <a href="{% url 'lists:list_detail' list_id=list.id %}" class="list-link">{{ list.name }}</a>
+                <button class="delete-btn" type="button" 
+                        onclick="location.href='{% url 'lists:delete_list' list_id=list.id %}'">✕</button>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="no-lists-message">No ToDo Lists found. Time to get things done!</p>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}
