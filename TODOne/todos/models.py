@@ -19,5 +19,5 @@ class Todo(models.Model):
         return self.title
 
     class Meta:
-        ordering = "-create_date"
-        indexes = [models.Index(fields=["-create"])]
+        ordering = ["-create_date"]
+        indexes = [models.Index(fields=["-create_date"])]
