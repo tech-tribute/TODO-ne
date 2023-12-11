@@ -4,6 +4,7 @@ from django.views.decorators.http import require_POST, require_GET
 
 from . forms import CreateListForm
 from . models import List
+from todos.models import Todo
 
 
 # Create your views here.
@@ -33,18 +34,32 @@ def create_list(request:HttpRequest):
         new_list.save()
         return redirect("lists:list_detail", list_id=new_list.id)
 
-    print("HOoooooooooo")
     return redirect("lists:list_overview")
 
 @require_GET
 def list_detail(request:HttpRequest, list_id:int):
     list_ = List.objects.get(id=list_id)
-    todos = list_.todos
+    todos:Todo = list_.todos.all()
+    uncompleted_todos = todos.filter(is_complete=False)
+    completed_todos = todos.filter(is_complete=True)
+    
+    context = {
+        "list":list_,
+        "todos":todos,
+        "list_id":list_id,
+        "completed_todos":completed_todos,
+        "uncompleted_todos":uncompleted_todos,
+    }
+
+    return render(request=request, template_name="lists/list_detail.html", context=context,)
 
 
 def edit_list(request:HttpRequest):
     return HttpResponse("Developing ...")
 
-
+ 
+@require_GET
 def delete_list(request:HttpRequest, list_id:int):
-    return HttpResponse("Developing ...")
+    list_ = List.objects.get(id=list_id).delete()
+    
+    return redirect("lists:list_overview")

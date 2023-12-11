@@ -3,7 +3,7 @@ from django.http import HttpRequest, HttpResponse
 
 
 # Create your views here.
-def todo_detail(request: HttpRequest):
+def todo_detail(request: HttpRequest, todo_id:int):
     return HttpResponse("Developing ...")
 
 

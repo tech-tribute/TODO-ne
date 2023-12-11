@@ -1,0 +1,71 @@
+{% extends 'parent/base.html' %}
+
+{% block title %}
+Lists TODOne
+{% endblock %}
+
+{% block style %}
+    "../../static/css/lists/list_detail.css"
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <header class="main-header">
+        <h1 class="main-heading">
+            <a href="{% url 'index' %}" class="home-link">TODOne </a>
+        </h1>
+    </header>
+
+    <nav class="navigation-buttons">
+        <button onclick="location.href='{% url 'lists:list_overview' %}'" class="back-button">Back</button>
+    </nav>
+
+    <main class="main-content">
+
+        <section class="create-list-section">
+            <h2>Create To-Do</h2>
+            <form action="{% url 'lists:add_todo' list_id %}" method="post" class="create-todo-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="todo_name" required placeholder="Enter new To-Do" class="todo-input">
+                    <input type="submit" value="Add Item" class="submit-btn">
+                </div>
+            </form>
+        </section>
+        <br><br>
+        {% if todos %}
+            <div class="todo-list">
+                {% for todo in todos %}
+                <div class="todo-item">
+                    {% if todo.is_complete %}
+                    <a href="{% url 'todos:edit_todo' todo_id=todo.id %}?mark_as=uncomplete">
+                        <button class="status-btn undone-btn">&times;</button>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'todos:edit_todo' todo_id=todo.id %}?mark_as=complete">
+                        <button class="status-btn done-btn">✓</button>
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'todos:todo_detail' todo_id=todo.id %}" class="todo-text">{{ todo.title }}</a>
+                    <button type="button" class="delete-btn"
+                        onclick="location.href='{% url 'todos:delete_todo' todo_id=todo.id %}'">✕</button>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="todo-footer">
+                <span class="todo-count"><strong>{{ uncompleted_todos|length }}</strong> items left</span>
+            </div>
+        {% else %}
+        <p class="no-todos">No ToDo items found. Time to get things done!</p>
+        {% endif %}
+
+        <div class="list-filter">
+            filter by -->
+            <a href="{% url 'lists:list_detail' list_id=list_id %}?filter=all" class="filter-link">All</a>
+            <a href="{% url 'lists:list_detail' list_id=list_id %}?filter=active" class="filter-link">Active</a>
+            <a href="{% url 'lists:list_detail' list_id=list_id %}?filter=completed" class="filter-link">Completed</a>
+        </div>
+    </main>
+</div>
+{% endblock %}

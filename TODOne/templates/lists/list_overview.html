@@ -3,10 +3,10 @@
 {% block title %}
 Lists TODOne
 {% endblock %}
-
+<!-- 
 {% block style %}
     '../static/css/lists/list_overview.css'
-{% endblock %}
+{% endblock %} -->
 
 {% block content %}
 <div class="content-wrapper">
@@ -16,8 +16,10 @@ Lists TODOne
         </h1>
     </header>
 
+    <button class="back-arrow" onclick="location.href='{% url 'index' %}'" aria-label="Go back">Back</button>
+
     <main class="todo-section">
-        <h2>Create List:</h2>
+        <h2>Create List</h2>
         <form method="post" action="{% url 'lists:create_list' %}">
             {% csrf_token %}
             {{form.as_p}}
@@ -32,7 +34,7 @@ Lists TODOne
         </form>
 
         {% if lists %}
-        <h2 class="section-title">ToDo Lists:</h2>
+        <br><br>
         <div class="list-wrapper">
             {% for list in lists %}
             <div class="list-item">
