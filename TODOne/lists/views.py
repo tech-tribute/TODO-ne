@@ -3,6 +3,7 @@ from django.http import HttpRequest, HttpResponse
 from django.views.decorators.http import require_POST, require_GET
 
 from .forms import *
+from todos.forms import *
 from .models import List
 from todos.models import Todo
 
@@ -25,8 +26,16 @@ def list_overview(request: HttpRequest):
     )
 
 
-def add_todo(request: HttpRequest):
-    return HttpResponse("Developing ...")
+@require_POST
+def add_todo(request: HttpRequest, list_id:int):
+    form = CreateTodoForm(request.POST)
+    if form.is_valid():
+        title = form.cleaned_data.get("title")
+        parent_list = List.objects.get(id=list_id)
+        new_todo = Todo(title=title, parent_list=parent_list)
+        new_todo.save()
+
+    return redirect("lists:list_detail", list_id=list_id)
 
 
 @require_POST

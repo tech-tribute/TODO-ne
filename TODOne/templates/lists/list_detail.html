@@ -36,7 +36,7 @@ Lists TODOne
             <form action="{% url 'lists:add_todo' list_id %}" method="post" class="create-todo-form">
                 {% csrf_token %}
                 <div class="form-group">
-                    <input type="text" name="todo_name" required placeholder="Enter new To-Do" class="todo-input">
+                    <input type="text" name="title" required placeholder="Enter new To-Do" class="todo-input">
                     <input type="submit" value="Add Item" class="submit-btn">
                 </div>
             </form>

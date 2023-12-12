@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
+from django.views.decorators.http import require_POST, require_GET
+from . models import Todo
 
 
 # Create your views here.
@@ -11,5 +13,8 @@ def edit_todo(request: HttpRequest):
     return HttpResponse("Developing ...")
 
 
-def delete_todo(request: HttpRequest):
-    return HttpResponse("Developing ...")
+@require_GET
+def delete_todo(request: HttpRequest, todo_id):
+    todo = Todo.objects.get(id=todo_id).delete()
+
+    return redirect("lists:list_detail")
