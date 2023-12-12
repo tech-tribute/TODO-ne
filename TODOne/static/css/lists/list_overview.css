@@ -118,7 +118,7 @@ body {
 input[type='text'],
 input[type='submit'],
 button {
-    padding: 0.5rem;
+    padding: 0.6rem;
     border-radius: var(--border-radius);
     border: 1px solid var(--text-color);
     background-color: var(--secondary-bg-color);

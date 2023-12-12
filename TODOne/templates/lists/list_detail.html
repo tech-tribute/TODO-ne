@@ -22,6 +22,14 @@ Lists TODOne
     </nav>
 
     <main class="main-content">
+        <section class="edit-list-section">
+            <h2>List :</h2>
+            <form action="{% url 'lists:edit_list' list_id%}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="Rename '{{list.name}}' list" method="post">
+                <input type="submit" value="Rename" >
+            </form>
+        </section>
 
         <section class="create-list-section">
             <h2>Create To-Do</h2>
@@ -40,11 +48,11 @@ Lists TODOne
                 <div class="todo-item">
                     {% if todo.is_complete %}
                     <a href="{% url 'todos:edit_todo' todo_id=todo.id %}?mark_as=uncomplete">
-                        <button class="status-btn undone-btn">&times;</button>
+                        <button class="status-btn done-btn">&times;</button>
                     </a>
                     {% else %}
                     <a href="{% url 'todos:edit_todo' todo_id=todo.id %}?mark_as=complete">
-                        <button class="status-btn done-btn">✓</button>
+                        <button class="status-btn undone-btn">✓</button>
                     </a>
                     {% endif %}
                     <a href="{% url 'todos:todo_detail' todo_id=todo.id %}" class="todo-text">{{ todo.title }}</a>
