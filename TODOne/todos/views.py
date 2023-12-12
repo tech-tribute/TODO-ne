@@ -15,6 +15,7 @@ def edit_todo(request: HttpRequest):
 
 @require_GET
 def delete_todo(request: HttpRequest, todo_id):
-    todo = Todo.objects.get(id=todo_id).delete()
-
-    return redirect("lists:list_detail")
+    todo = Todo.objects.get(id=todo_id)
+    list_id = todo.parent_list.id
+    todo.delete()
+    return redirect("lists:list_detail", list_id=list_id)

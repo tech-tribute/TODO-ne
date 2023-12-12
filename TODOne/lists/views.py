@@ -57,10 +57,17 @@ def list_detail(request: HttpRequest, list_id: int):
     uncompleted_todos = todos.filter(is_complete=False)
     completed_todos = todos.filter(is_complete=True)
 
+    filter_ = request.GET.get("filter")
+    if filter_ in ["active", "completed"]:
+        if filter_ == "active":
+            todos = uncompleted_todos
+        elif filter_ == "completed":
+            todos = completed_todos
+
+        
     context = {
         "list": list_,
         "todos": todos,
-        "list_id": list_id,
         "completed_todos": completed_todos,
         "uncompleted_todos": uncompleted_todos,
     }

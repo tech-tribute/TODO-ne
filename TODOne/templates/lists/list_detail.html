@@ -24,7 +24,7 @@ Lists TODOne
     <main class="main-content">
         <section class="edit-list-section">
             <h2>List :</h2>
-            <form action="{% url 'lists:edit_list' list_id%}" method="POST">
+            <form action="{% url 'lists:edit_list' list.id%}" method="POST">
                 {% csrf_token %}
                 <input type="text" name="name" placeholder="Rename '{{list.name}}' list" method="post">
                 <input type="submit" value="Rename" >
@@ -33,7 +33,7 @@ Lists TODOne
 
         <section class="create-list-section">
             <h2>Create To-Do</h2>
-            <form action="{% url 'lists:add_todo' list_id %}" method="post" class="create-todo-form">
+            <form action="{% url 'lists:add_todo' list.id %}" method="post" class="create-todo-form">
                 {% csrf_token %}
                 <div class="form-group">
                     <input type="text" name="title" required placeholder="Enter new To-Do" class="todo-input">
@@ -48,11 +48,11 @@ Lists TODOne
                 <div class="todo-item">
                     {% if todo.is_complete %}
                     <a href="{% url 'todos:edit_todo' todo_id=todo.id %}?mark_as=uncomplete">
-                        <button class="status-btn done-btn">&times;</button>
+                        <button class="status-btn done-btn">✓</button>
                     </a>
                     {% else %}
                     <a href="{% url 'todos:edit_todo' todo_id=todo.id %}?mark_as=complete">
-                        <button class="status-btn undone-btn">✓</button>
+                        <button class="status-btn undone-btn">&times;</button>
                     </a>
                     {% endif %}
                     <a href="{% url 'todos:todo_detail' todo_id=todo.id %}" class="todo-text">{{ todo.title }}</a>
@@ -70,9 +70,9 @@ Lists TODOne
 
         <div class="list-filter">
             filter by -->
-            <a href="{% url 'lists:list_detail' list_id=list_id %}?filter=all" class="filter-link">All</a>
-            <a href="{% url 'lists:list_detail' list_id=list_id %}?filter=active" class="filter-link">Active</a>
-            <a href="{% url 'lists:list_detail' list_id=list_id %}?filter=completed" class="filter-link">Completed</a>
+            <a href="{% url 'lists:list_detail' list_id=list.id %}?filter=all" class="filter-link">All</a>
+            <a href="{% url 'lists:list_detail' list_id=list.id %}?filter=active" class="filter-link">Active</a>
+            <a href="{% url 'lists:list_detail' list_id=list.id %}?filter=completed" class="filter-link">Completed</a>
         </div>
     </main>
 </div>
