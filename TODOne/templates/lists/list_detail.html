@@ -23,7 +23,7 @@ Lists TODOne
 
     <main class="main-content">
         <section class="edit-list-section">
-            <h2>List :</h2>
+            <h2>'{{list}}' List :</h2>
             <form action="{% url 'lists:edit_list' list.id%}" method="POST">
                 {% csrf_token %}
                 <input type="text" name="name" placeholder="Rename '{{list.name}}' list" method="post">
