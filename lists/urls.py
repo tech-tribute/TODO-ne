@@ -14,8 +14,6 @@ urlpatterns = [
     path(route="add/", view=views.create_list, name="create_list"),
     # Show detail todos and detail of a list
     path(route="<int:list_id>/", view=views.list_detail, name="list_detail"),
-    # Edit name
-    path(route="<int:list_id>/edit/", view=views.edit_list, name="edit_list"),
     # Delete
     path(route="<int:list_id>/delete/", view=views.delete_list, name="delete_list"),
 ]

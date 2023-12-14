@@ -27,7 +27,7 @@ def list_overview(request: HttpRequest):
 
 
 @require_POST
-def add_todo(request: HttpRequest, list_id:int):
+def add_todo(request: HttpRequest, list_id: int):
     form = CreateTodoForm(request.POST)
     if form.is_valid():
         title = form.cleaned_data.get("title")
@@ -50,9 +50,18 @@ def create_list(request: HttpRequest):
     return redirect("lists:list_overview")
 
 
-@require_GET
 def list_detail(request: HttpRequest, list_id: int):
     list_ = List.objects.get(id=list_id)
+    if request.method == "POST":
+        edit_list_form = EditListForm(request.POST)
+        if edit_list_form.is_valid():
+            name = edit_list_form.cleaned_data["name"]
+            list_.name = name
+            list_.save()
+            return redirect("lists:list_detail", list_id=list_id)
+    else:
+        edit_list_form = EditListForm()
+
     todos: Todo = list_.todos.all()
     uncompleted_todos = todos.filter(is_complete=False)
     completed_todos = todos.filter(is_complete=True)
@@ -64,12 +73,15 @@ def list_detail(request: HttpRequest, list_id: int):
         elif filter_ == "completed":
             todos = completed_todos
 
-        
+    create_todo_form = CreateTodoForm()
+
     context = {
         "list": list_,
         "todos": todos,
         "completed_todos": completed_todos,
         "uncompleted_todos": uncompleted_todos,
+        "create_todo_form": create_todo_form,
+        "edit_list_form": edit_list_form,
     }
 
     return render(
@@ -77,17 +89,6 @@ def list_detail(request: HttpRequest, list_id: int):
         template_name="lists/list_detail.html",
         context=context,
     )
-
-
-@require_POST
-def edit_list(request: HttpRequest, list_id=int):
-    form = EditListForm(request.POST)
-    if form.is_valid():
-        name = form.cleaned_data["name"]
-        list_ = List.objects.get(id=list_id)
-        list_.name = name
-        list_.save()
-        return redirect("lists:list_detail", list_id=list_.id)
 
 
 @require_GET

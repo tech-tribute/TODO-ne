@@ -13,6 +13,5 @@ class CreateListForm(forms.Form):
 class EditListForm(forms.Form):
     name = forms.CharField(
         max_length=255,
-        label="",
         required=True,
     )
