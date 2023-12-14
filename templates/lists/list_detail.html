@@ -26,7 +26,7 @@ Lists TODOne
             <h2>'{{list}}' List :</h2>
             <form action="{% url 'lists:list_detail' list.id%}" method="post">
                 {% csrf_token %}
-                <input type="text" name="name" placeholder="Rename '{{list.name}}' list" method="post">
+                <input type="text" name="name" placeholder="Rename '{{list.name}}' list" method="post" required>
                 <input type="submit" value="Rename" >
                 {% if edit_list_form.errors %}
                     {% for field in edit_list_form %}
