@@ -1,0 +1,44 @@
+{% extends 'parent/base.html' %}
+
+{% block title %}
+Lists TODOne
+{% endblock %}
+
+{% block style %}
+"../../static/css/todos/todo_detail.css"
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <header>
+            <h1>
+                <a href="{% url 'index' %}">TODOne</a>
+            </h1>
+        </header>
+    
+        <nav>
+            <button onclick="location.href='{% url 'lists:list_detail' todo.parent_list.id %}'" class="back-button">Back</button>
+        </nav>
+    
+        <main>
+            <article>
+                <h2>{{ todo.title }}</h2>
+                <p>Created: {{ todo.create_date }}</p>
+                <p>Last Updated: {{ todo.update_date }}</p>
+                <p>Status: {% if todo.is_complete %}Completed{% else %}Not Completed{% endif %}</p>
+            </article>
+    
+            <section>
+                <form action="{% url 'todos:edit_todo' todo.id %}" method="post">
+                    {% csrf_token %}
+                    <div>
+                        <label for="title">Edit Todo Title:</label>
+                        <input id="title" type="text" name="title" value="{{ todo.title }}"
+                            placeholder="Enter new todo title" required>
+                    </div>
+                    <input type="submit" value="Update Todo">
+                </form>
+            </section>
+        </main>
+    </div>
+{% endblock %}

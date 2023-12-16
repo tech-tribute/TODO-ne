@@ -1,6 +1,5 @@
-<h1 align = 'center'>TODO-ne</h1>
-<p align="center">
-</p>
-<p align="center">
+# TODO-ne
 A simple todo list written in Python and Django
-</p>
+
+### Getting started
+**To run project use `run.py` script !**
