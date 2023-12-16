@@ -1,7 +1,13 @@
 import subprocess
 import sys
 import os
+import webbrowser
+from threading import Thread
+from time import sleep
+import requests
 
+
+default_address = "http://127.0.0.1:8000"
 
 def check_migrations():
     # Use subprocess to execute the command and capture the output
@@ -30,10 +36,25 @@ def run_server():
     return True
 
 
+def open_tab():
+    sleep(1)
+    while True:
+        if not is_run():
+            sleep(0.5)
+        break
+    return webbrowser.open_new_tab(default_address)
+
+
+def is_run():
+    req = requests.get(default_address)
+    return req.status_code == 200
+
+
 if __name__ == "__main__":
+    if check_migrations():
+        apply_migrations()
+    Thread(target=open_tab).start()
     try:
-        if check_migrations():
-            apply_migrations()
         run_server()
     except KeyboardInterrupt:
         print("Server stopped by user")
