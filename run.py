@@ -9,6 +9,7 @@ import requests
 
 default_address = "http://127.0.0.1:8000"
 
+
 def check_migrations():
     # Use subprocess to execute the command and capture the output
     proc = subprocess.Popen(
@@ -38,10 +39,8 @@ def run_server():
 
 def open_tab():
     sleep(1)
-    while True:
-        if not is_run():
-            sleep(0.5)
-        break
+    while not is_run():
+        sleep(0.5)
     return webbrowser.open_new_tab(default_address)
 
 
